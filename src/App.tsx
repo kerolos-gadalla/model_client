@@ -7,7 +7,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import pack from "../package.json";
-import { DemoPage } from "./DemoPage";
+import { DemoPage } from "./pages/DemoPage";
 import ObjectDetection from "./pages/ObjectDetection";
 import { getDemoPath, getPlaygroundPath, getTesseractPath } from "./utils/pathUtils";
 import { BasicExample } from "./BasicExample";
