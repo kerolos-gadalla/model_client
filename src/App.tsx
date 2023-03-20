@@ -8,7 +8,9 @@ import {
 } from "react-router-dom";
 import pack from "../package.json";
 import { DemoPage } from "./DemoPage";
+import ObjectDetection from "./pages/ObjectDetection";
 import { getDemoPath, getPlaygroundPath } from "./utils/pathUtils";
+import { BasicExample } from "./BasicExample";
 
 const homepage = pack.homepage || "";
 const url = new URL(homepage);
@@ -16,16 +18,17 @@ const baseURLPath = url?.pathname || "";
 
 const DEMO_PATH = getDemoPath();
 const PLAYGROUND_PATH = getPlaygroundPath();
-const ROOT_REDIRECTION_PATH = DEMO_PATH;
+const ROOT_REDIRECTION_PATH = PLAYGROUND_PATH;
 
 function App() {
   return (
     <div className="App">
+      <BasicExample baseURLPath={baseURLPath}  />
       <Router basename={baseURLPath}>
         <Routes>
-          <Route path="/demo" element={<DemoPage></DemoPage>} />
-          <Route path="/" element={<Navigate to="/demo" />} />
-          <Route path="/playground" element={<Navigate to="/demo" />} />
+          <Route path={DEMO_PATH} element={<DemoPage></DemoPage>} />
+          <Route path="/" element={<Navigate to={ROOT_REDIRECTION_PATH} />} />
+          <Route path={PLAYGROUND_PATH} element={<ObjectDetection />} />
         </Routes>
       </Router>
     </div>
