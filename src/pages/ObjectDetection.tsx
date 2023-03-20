@@ -7,87 +7,12 @@ import {
 } from "react";
 // import reactLogo from "./assets/react.svg";
 // import "./App.css";
-import { useClipboardImageUrl } from "./useClipboardImageUrl";
 import { useModel } from "./useModel";
 import "./ObjectDetection.scss";
-
-function ImageUploadComponent({
-  setImageUrl,
-}: {
-  setImageUrl: (url: string | null | undefined) => unknown;
-}) {
-  const textInputRef = useRef<HTMLInputElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const { clipboardImageUrl } = useClipboardImageUrl();
-
-  useEffect(() => {
-    setImageUrl(clipboardImageUrl);
-  }, [clipboardImageUrl, setImageUrl]);
-
-  const triggerUpload = () => {
-    if (fileInputRef.current) {
-      (fileInputRef.current as any).click();
-    }
-  };
-
-  const uploadImage: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const files = event.target.files;
-    if ((files?.length || 0) > 0) {
-      const file = event.target.files?.[0];
-      if (file) {
-        const url = URL.createObjectURL(file);
-        setImageUrl(url);
-        return;
-      }
-    }
-    setImageUrl(null);
-    return;
-  };
-
-  const handleOnChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setImageUrl(e.target.value as string);
-  };
-
-  return (
-    <div className="inputHolder">
-      <input
-        type="file"
-        accept="image/*"
-        capture="user"
-        className="uploadInput"
-        onChange={uploadImage}
-        ref={fileInputRef}
-      />
-      <button className="uploadImage" onClick={triggerUpload}>
-        Upload Image
-      </button>
-      <span className="or">OR</span>
-      <input
-        type="text"
-        placeholder="Paster image URL"
-        ref={textInputRef}
-        onChange={handleOnChange}
-      />
-    </div>
-  );
-}
-
-// const pasteHandler = function (event: any) {
-
-//   window.addEventListener(
-//     "paste",
-//     function (e) {
-//       // Handle the event
-//       retrieveImageFromClipboardAsBlob(e, function (imageBlob) {
-
-//           createUrlFromBlob(img, imageBlob);
-
-//       });
-//     },
-//     false
-//   );
-// };
+import { ImageUploadComponent } from "./ImageUploadComponent";
+import { ImageDisplay } from "./ImageDisplay";
+import { ResultsDisplay } from "./ResultsDisplay";
+import { HistoryDisplay } from "./HistoryDisplay";
 
 function App() {
   const [history, setHistory] = useState<string[]>([]);
@@ -145,30 +70,14 @@ function App() {
       <div className="mainWrapper">
         <div className="mainContent">
           <div className="imageHolder">
-            {imageUrl && (
-              <img
-                src={imageUrl || ""}
-                alt="Upload Preview"
-                crossOrigin="anonymous"
-                ref={imageRef}
-              />
-            )}
+            <ImageDisplay
+              imageRef={imageRef}
+              imageUrl={imageUrl}
+            ></ImageDisplay>
           </div>
           {(results?.length || 0) > 0 && (
             <div className="resultsHolder">
-              {(results || ([] as any[])).map((result, index) => {
-                return (
-                  <div className="result" key={result.className}>
-                    <span className="name">{result.className}</span>
-                    <span className="confidence">
-                      Confidence level: {(result.probability * 100).toFixed(2)}%{" "}
-                      {index === 0 && (
-                        <span className="bestGuess">Best Guess</span>
-                      )}
-                    </span>
-                  </div>
-                );
-              })}
+              <ResultsDisplay results={results} />
             </div>
           )}
         </div>
@@ -183,17 +92,10 @@ function App() {
         <div className="recentPredictions">
           <h2>Recent Images</h2>
           <div className="recentImages">
-            {history.map((image, index) => {
-              return (
-                <div className="recentPrediction" key={`${image}${index}`}>
-                  <img
-                    src={image}
-                    alt="Recent Prediction"
-                    onClick={() => setImageUrl(image)}
-                  />
-                </div>
-              );
-            })}
+            <HistoryDisplay
+              history={history}
+              setImageUrl={setImageUrl}
+            ></HistoryDisplay>
           </div>
         </div>
       )}
