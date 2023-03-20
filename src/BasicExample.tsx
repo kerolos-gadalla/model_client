@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { getDemoPath, getPlaygroundPath } from "./utils/pathUtils";
+import { getDemoPath, getPlaygroundPath, getTesseractPath } from "./utils/pathUtils";
 
 type NavItemD = {
   title: string;
@@ -62,6 +62,7 @@ export const BasicExample = ({
   const items: NavItemD[] = [
     { navTo: getDemoPath(), title: "DEMO" },
     { navTo: getPlaygroundPath(), title: "Playground" },
+    { navTo: getTesseractPath(), title: "getTesseract" },
   ].map(({ navTo, title }) => {
     return { navTo: build_path(baseURLPath, navTo), title };
   });

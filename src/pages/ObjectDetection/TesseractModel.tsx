@@ -7,23 +7,22 @@ import {
 } from "react";
 // import reactLogo from "./assets/react.svg";
 // import "./App.css";
-import { useModel } from "./useModel";
+// import { useModel } from "./useModel";
 import "./ObjectDetection.scss";
 import { ImageUploadComponent } from "./ImageUploadComponent";
 import { ImageDisplay } from "./ImageDisplay";
 import { ResultsDisplay } from "./ResultsDisplay";
 import { HistoryDisplay } from "./HistoryDisplay";
+import Tesseract from "tesseract.js";
 
-function App() {
+export function TesseractModel() {
   const [history, setHistory] = useState<string[]>([]);
 
   const imageRef = useRef<HTMLImageElement>(null);
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  const [results, setResults] = useState<Array<
-    Awaited<ReturnType<ReturnType<typeof useModel>["classify"]>>
-  > | null>(null);
+  const [results, setResults] = useState<any>(null);
 
   useEffect(() => {
     if (imageUrl != null) {
@@ -39,13 +38,13 @@ function App() {
     }
   }, [imageUrl]);
 
-  const { isModelLoading, classify, isModelLoaded } = useModel();
+  // const { isModelLoading, classify, isModelLoaded } = useModel();
 
   const identify = async () => {
     console.log("identifying1");
     if (imageRef.current != null) {
       console.log("identifying2");
-      const results = await classify(imageRef.current as any);
+      const results = await Tesseract.recognize(imageRef.current as any);
       console.log(results);
       setResults((results || []) as any);
     }
@@ -58,9 +57,6 @@ function App() {
     [setImageUrl]
   );
 
-  if (isModelLoading) {
-    return <div>Loading model...</div>;
-  }
   return (
     <div className="App">
       <h1 className="header">Image Identification</h1>
@@ -75,9 +71,9 @@ function App() {
               imageUrl={imageUrl}
             ></ImageDisplay>
           </div>
-          {(results?.length || 0) > 0 && (
+          {results && (
             <div className="resultsHolder">
-              <ResultsDisplay results={results} />
+              <pre>{results?.data?.text}</pre>
             </div>
           )}
         </div>
@@ -99,8 +95,9 @@ function App() {
           </div>
         </div>
       )}
+      {/* <pre>
+        <code>{results && JSON.stringify(results, null, 2)}</code>
+      </pre> */}
     </div>
   );
 }
-
-export default App;

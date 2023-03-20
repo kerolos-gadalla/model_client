@@ -9,8 +9,9 @@ import {
 import pack from "../package.json";
 import { DemoPage } from "./DemoPage";
 import ObjectDetection from "./pages/ObjectDetection";
-import { getDemoPath, getPlaygroundPath } from "./utils/pathUtils";
+import { getDemoPath, getPlaygroundPath, getTesseractPath } from "./utils/pathUtils";
 import { BasicExample } from "./BasicExample";
+import { TesseractModel } from "./pages/ObjectDetection/TesseractModel";
 
 const homepage = pack.homepage || "";
 const url = new URL(homepage);
@@ -18,6 +19,8 @@ const baseURLPath = url?.pathname || "";
 
 const DEMO_PATH = getDemoPath();
 const PLAYGROUND_PATH = getPlaygroundPath();
+const TESSERACT_PATH = getTesseractPath();
+
 const ROOT_REDIRECTION_PATH = PLAYGROUND_PATH;
 
 function App() {
@@ -29,6 +32,7 @@ function App() {
           <Route path={DEMO_PATH} element={<DemoPage></DemoPage>} />
           <Route path="/" element={<Navigate to={ROOT_REDIRECTION_PATH} />} />
           <Route path={PLAYGROUND_PATH} element={<ObjectDetection />} />
+          <Route path={TESSERACT_PATH} element={<TesseractModel />} />
         </Routes>
       </Router>
     </div>
