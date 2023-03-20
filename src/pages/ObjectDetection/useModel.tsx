@@ -3,28 +3,28 @@ import "@tensorflow/tfjs-backend-webgl";
 
 import * as mobilenet from "@tensorflow-models/mobilenet";
 
-export function useModel() {
+export function useModel(modelName = "mobilenet") {
   const [model, setModel] = useState<mobilenet.MobileNet | null>(null);
   const [isModelLoading, setIsModelLoading] = useState(false);
 
-  const loadModel = async () => {
-    console.log("Loading");
+  const loadModel = useCallback(async () => {
+    console.log(`Loading ${modelName}`);
     try {
       setIsModelLoading(true);
-      const model = await mobilenet.load();
-      console.log("loaded");
-      setModel(model);
+      if (modelName === "mobilenet") {
+        const model = await mobilenet.load();
+        console.log(`Loaded ${modelName}`);
+        setModel(model);
+      } else {
+        throw Error(`Your model is not currently supported ${modelName}`);
+      }
     } catch (error) {
-      console.log("error");
+      console.log(`Error while loading ${modelName}`);
       console.log(error);
     } finally {
       setIsModelLoading(false);
     }
-  };
-
-  useEffect(() => {
-    loadModel();
-  }, []);
+  }, [modelName]);
 
   const classify = useCallback(
     (...inputs: Parameters<mobilenet.MobileNet["classify"]>) => {
@@ -32,6 +32,9 @@ export function useModel() {
     },
     [model]
   );
+  useEffect(() => {
+    loadModel();
+  }, [loadModel]);
 
   return { model, isModelLoading, classify, isModelLoaded: !!model };
 }
