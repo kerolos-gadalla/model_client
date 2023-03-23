@@ -27,7 +27,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build && cp build/index.html build/404.html",
     "build-ci": "CI=true yarn build",
-    "build-root": "PUBLIC_URL=/ yarn build",
+    "build-root": "PUBLIC_URL=/ REACT_APP_PUBLIC_URL=/ yarn build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn build",

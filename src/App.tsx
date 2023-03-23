@@ -13,15 +13,23 @@ import { getDemoPath, getPlaygroundPath, getTesseractPath } from "./utils/pathUt
 import { BasicExample } from "./BasicExample";
 import { TesseractModel } from "./pages/ObjectDetection/TesseractModel";
 
-const homepage = pack.homepage || "";
-const url = new URL(homepage);
-const baseURLPath = url?.pathname || "";
+const baseURLPath = getBasePath();
 
 const DEMO_PATH = getDemoPath();
 const PLAYGROUND_PATH = getPlaygroundPath();
 const TESSERACT_PATH = getTesseractPath();
 
 const ROOT_REDIRECTION_PATH = PLAYGROUND_PATH;
+
+function getBasePath() {
+  if (process.env.REACT_APP_PUBLIC_URL){
+    return process.env.REACT_APP_PUBLIC_URL
+  }
+  const homepage = pack.homepage || "";
+  const url = new URL(homepage);
+  const baseURLPath = url?.pathname || "";
+  return baseURLPath;
+}
 
 function App() {
   return (
