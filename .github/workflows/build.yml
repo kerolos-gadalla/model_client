@@ -45,7 +45,7 @@ jobs:
           NETLIFY_AUTH_TOKEN: S{{ secrets.NETLIFY_PER_TOKEN }}
         run: |
           yarn
-          yarn buile-root
+          yarn build-root
           npx netlify-cli deploy --dir=build --prod
 
   # checkChangesInDocs:
