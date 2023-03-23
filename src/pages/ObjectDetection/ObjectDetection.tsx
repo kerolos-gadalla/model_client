@@ -3,7 +3,7 @@ import {
   useState,
   useRef,
   useCallback,
-  SetStateAction,
+  // SetStateAction,
 } from "react";
 // import reactLogo from "./assets/react.svg";
 // import "./App.css";
@@ -39,7 +39,7 @@ function App() {
     }
   }, [imageUrl]);
 
-  const { isModelLoading, classify, isModelLoaded } = useModel();
+  const { isModelLoading, classify } = useModel();
 
   const identify = async () => {
     console.log("identifying1");

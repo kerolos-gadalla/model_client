@@ -3,7 +3,7 @@ import {
   useState,
   useRef,
   useCallback,
-  SetStateAction,
+  // SetStateAction,
 } from "react";
 // import reactLogo from "./assets/react.svg";
 // import "./App.css";
@@ -11,7 +11,7 @@ import {
 import "./ObjectDetection.scss";
 import { ImageUploadComponent } from "./ImageUploadComponent";
 import { ImageDisplay } from "./ImageDisplay";
-import { ResultsDisplay } from "./ResultsDisplay";
+// import { ResultsDisplay } from "./ResultsDisplay";
 import { HistoryDisplay } from "./HistoryDisplay";
 import Tesseract from "tesseract.js";
 

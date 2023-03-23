@@ -2,7 +2,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+// import NavDropdown from "react-bootstrap/NavDropdown";
 import {
   getDemoPath,
   getPlaygroundPath,
@@ -36,9 +36,9 @@ const build_path = (...args: string[]) => {
   return args
     .map((part, i) => {
       if (i === 0) {
-        return part.trim().replace(/[\/]*$/g, "");
+        return part.trim().replace(/[/]*$/g, "");
       } else {
-        return part.trim().replace(/(^[\/]*|[\/]*$)/g, "");
+        return part.trim().replace(/(^[/]*|[/]*$)/g, "");
       }
     })
     .filter((x) => x.length)
