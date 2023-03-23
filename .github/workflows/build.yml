@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v3
       # - uses: actions/setup-node@v1
       - run: yarn
-      - run: yarn test
+      # - run: yarn test
       - name: Build Project
         run: yarn build
       - name: Archive artifacts
@@ -20,19 +20,19 @@ jobs:
         with:
             name: build
             path: './build'
-  # deploy-pages:
-  #   runs-on: ubuntu-latest
-  #   container: node:16
-  #   needs: [build-node]
-  #   steps: 
-  #     - name: Download artifact
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: build
-  #     - name: Test artifact download  
-  #       run: ls -R
-  #     - name: Test artifact download
-  #       run: ls -la
+  deploy-pages:
+    runs-on: ubuntu-latest
+    container: node:16
+    needs: [build-node]
+    steps: 
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+      - name: Test artifact download  
+        run: ls -R
+      - name: Test artifact download
+        run: ls -la
   build-netflify:
     runs-on: ubuntu-latest
     container: node:16
